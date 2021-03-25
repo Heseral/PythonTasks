@@ -14,7 +14,8 @@ from PyQt5.QtCore import Qt
 from game.settings import UISettingsWindow
 from game.help import UIHelpWindow
 
-class UIMainWindow(object):
+
+class MyWindow(QtWidgets.QMainWindow):
     def setup_ui(self, main_window):
         self.centralwidget = QtWidgets.QWidget(main_window)
         main_window.setObjectName("MainWindow")
@@ -132,7 +133,14 @@ class UIMainWindow(object):
         k = 0
         for i in range(0, len(self.game_matrix)):
             for j in range(0, len(self.game_matrix[i])):
-                self.gridLayout.itemAt(k).widget().setText(f"<h1>{self.game_matrix[i][j]}</h1>")
+                if i >= self.row and i - self.row < 3 and j >= self.col and j - self.col < 3:
+                    self.gridLayout.itemAt(k).widget().setText(
+                        f"<h1 style='color: rgb(255, 0, 0)'>{self.game_matrix[i][j]}</h1>"
+                    )
+                else:
+                    self.gridLayout.itemAt(k).widget().setText(
+                        f"<h1>{self.game_matrix[i][j]}</h1>"
+                    )
                 k += 1
 
     def init_game_state(self):
@@ -142,15 +150,6 @@ class UIMainWindow(object):
             for j in range(0, len(self.game_matrix[i])):
                 self.gridLayout.addWidget(QtWidgets.QLabel("<h1>0</h1>"), i, j)
 
-"""
-class MyWindow(QtWidgets.QMainWindow, UIMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-
-
-
-
     def keyPressEvent(self, event):
         key = event.key()
         if key == Qt.Key_Z:
@@ -158,18 +157,18 @@ class MyWindow(QtWidgets.QMainWindow, UIMainWindow):
         elif key == Qt.Key_Left:
             self.col = max(0, self.col - 1)
         elif key == Qt.Key_Right:
-            self.col = min(len(self.game_matrix), self.col + 1)
+            self.col = min(len(self.game_matrix) - 3, self.col + 1)
         elif key == Qt.Key_Down:
-            self.row = min(len(self.game_matrix), self.row + 1)
+            self.row = min(len(self.game_matrix) - 3, self.row + 1)
         elif key == Qt.Key_Up:
             self.row = max(0, self.row - 1)
-"""
+        self.redraw_game_field()
+
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    myWindow = QtWidgets.QMainWindow()
-    ui = UIMainWindow()
-    ui.setup_ui(myWindow)
+    myWindow = MyWindow()
+    myWindow.setup_ui(myWindow)
     myWindow.show()
     sys.exit(app.exec_())
