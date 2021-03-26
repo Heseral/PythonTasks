@@ -34,12 +34,6 @@ class XMLHandler(object):
 
         return xml.dom.minidom.parse(http_response).documentElement
 
-    @staticmethod
-    def get_humanreadable_data(nodelist, result):
-        for node in nodelist.childNodes:
-            if node.childNodes is not None and len(node.childNodes) > 0:
-                return result.append(XMLHandler.get_humanreadable_data(node.childNodes))
-
 
 class Valute(object):
     def __init__(self, name, char_code, nominal, value):
