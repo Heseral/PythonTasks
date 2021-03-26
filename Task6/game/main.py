@@ -63,7 +63,7 @@ class MyWindow(QtWidgets.QMainWindow):
     def init_mbar(self, game):
         self.mbar_btn_settings.triggered.connect(lambda: self.open_settings(game))
         self.mbar_btn_help.triggered.connect(self.open_help)
-        self.mbar_btn_exit.triggered.connect(self.centralwidget.close)
+        self.mbar_btn_exit.triggered.connect(self.close)
 
     def open_settings(self, game):
         ui_settings = UISettingsWindow(self)

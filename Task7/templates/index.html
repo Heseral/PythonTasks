@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task 7</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <script>
+        function getChecked(radioList) {
+            for(var i = 0; i < radioList.length; i++) {
+                if (radioList[i].type == "radio" && radioList[i].checked) {
+                    return radioList[i];
+                }
+            }
+        }
+
+        function getResult(rubles, value) {
+            return rubles / value;
+        }
+
+        function IOResult(inputID, usingValuesName, outputID) {
+            document.getElementById(outputID).value = "Это " + getResult(
+                parseFloat(document.getElementById(inputID).value),
+                parseFloat(getChecked(document.getElementsByName(usingValuesName)).value)
+            ) + " от выбранной валюты";
+        }
+    </script>
+</head>
+<body>
+    <h1>
+        Конвертация валют
+    </h1>
+    <table>
+        <tr>
+            <td>
+                <h2>
+                    Рублей:
+                </h2>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input id="input" type="text" size="32">
+            </td>
+            <td>
+                <input type="button" onclick="IOResult('input', 'valuteradio', 'result');" value="Преобразовать">
+            </td>
+            <td>
+                <output id="result">N/A</output>
+            </td>
+        </tr>
+    </table>
+    <h2>
+        Конвертировать в:
+    </h2>
+    {% for valute in valutes %}
+        <input type="radio" name="valuteradio" value="{{valute.value}}">{{valute.char_code}}({{valute.name}}): {{valute.value}} рублей.
+        <br>
+    {% endfor %}
+</body>
+</html>
