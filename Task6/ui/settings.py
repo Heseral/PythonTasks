@@ -12,8 +12,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class UISettingsWindow(object):
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, game_ui):
+        self.game_ui = game_ui
 
     def setupUi(self, SettingsWindow):
         SettingsWindow.setObjectName("SettingsWindow")
@@ -43,7 +43,7 @@ class UISettingsWindow(object):
         QtCore.QMetaObject.connectSlotsByName(SettingsWindow)
 
         self.btn_apply_and_restart.clicked.connect(
-            lambda: self.game.init_new_game_using_difficulty(self.comboBox.currentText())
+            lambda: self.game_ui.set_difficulty_and_restart_game(self.comboBox.currentText())
         )
 
     def retranslateUi(self, SettingsWindow):
@@ -54,13 +54,3 @@ class UISettingsWindow(object):
         self.comboBox.setItemText(1, _translate("SettingsWindow", "Средний"))
         self.comboBox.setItemText(2, _translate("SettingsWindow", "Сложный"))
         self.label.setText(_translate("SettingsWindow", "Сложность"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    SettingsWindow = QtWidgets.QMainWindow()
-    ui = UISettingsWindow()
-    ui.setupUi(SettingsWindow)
-    SettingsWindow.show()
-    sys.exit(app.exec_())
